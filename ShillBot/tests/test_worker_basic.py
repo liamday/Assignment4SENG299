@@ -86,7 +86,15 @@ class TestWorkerBasic(unittest.TestCase):
         self.assertGreater(len(results[1]), 0)
         self.assertGreater(len(results[2]), 0)
 
+    def test_worker_add_links_not_crawled(self):
+        worker = BasicUserParseWorker("https://www.reddit.com/user/Chrikelnel")
+        worker.crawled = []
 
+        len_to_crawl_before = len(worker.to_crawl)
+        worker.add_links(["https://www.reddit.com/user/Carrymeliam"])
+        len_to_crawl_after = len(worker.to_crawl)
+
+        self.assertGreater(len_to_crawl_after, len_to_crawl_before)
 
 
 
