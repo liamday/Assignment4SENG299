@@ -72,7 +72,19 @@ class TestWorkerBasic(unittest.TestCase):
         # Can't reach url
         self.assertRaises(IOError, worker.run)
 
+    def test_worker_add_results components(self):
+		#test if all three are properly added to results
+        worker = BasicUserParseWorker("https://www.reddit.com/user/Chrikelnel")
+        file_path = '%s/%s' % (os.path.dirname(os.path.realpath(__file__)), 'test_resources/sample_GET_response.html')
 
+        with codecs.open(file_path, encoding='utf-8') as f:
+            text = f.read()
+
+        results, next_page = worker.parse_text(str(text).strip().replace('\r\n', ''))
+
+        self.assertGreater(len(results[0]), 0)
+        self.assertGreater(len(results[1]), 0)
+        self.assertGreater(len(results[2]), 0)
 
 
 
