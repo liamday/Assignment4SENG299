@@ -6,14 +6,14 @@ from mothership.base import MothershipServer
 
 class TestMothershipBasic(unittest.TestCase):
     
-    def test_URL_reachabillity(self):
+     def test_basic_worker_connection(self):
         """
-        Purpose: Test error if URL not reached
-        Expectation: startup system, Fail to find user (exception)
-        :precondition: URL not reachable
+        Purpose: Test regular running of worker
+        Expectation: startup system, hit the reddit user and parse the data, fail to send to mothership (exception)
+        :precondition: Mothership server not running
         :return:
         """
-        worker = BasicUserParseWorker("https://www.reddit.com/user/badLinkBadUser")
+        worker = BasicUserParseWorker("https://www.reddit.com/user/Chrikelnel")
 
-        # Can't reach url
-        self.assertRaises(IOError, worker.run)
+        # Can't connect to mother, so should raise ConnectionRefusedError, but should run everything else
+        self.assertRaises(ConnectionRefusedError, worker.run)
